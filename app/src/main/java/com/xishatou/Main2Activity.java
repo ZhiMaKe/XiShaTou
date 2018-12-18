@@ -52,6 +52,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         Data.setText(getriqi());
         new TimeThread().start(); //启动新的线程
         System.currentTimeMillis();
+        System.currentTimeMillis();
     }
 
     private boolean isAnimFinished = true;
