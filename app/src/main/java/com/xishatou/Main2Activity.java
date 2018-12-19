@@ -53,6 +53,8 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         new TimeThread().start(); //启动新的线程
         System.currentTimeMillis();
         System.currentTimeMillis();
+        System.currentTimeMillis();
+//        我就是个好孩子
     }
 
     private boolean isAnimFinished = true;
