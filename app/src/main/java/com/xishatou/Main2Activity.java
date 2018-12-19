@@ -54,7 +54,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         System.currentTimeMillis();
         System.currentTimeMillis();
         System.currentTimeMillis();
-//        我就是个好孩子
+//        我就是个好孩子2
     }
 
     private boolean isAnimFinished = true;
