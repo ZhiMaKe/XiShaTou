@@ -14,7 +14,7 @@ import com.xishatou.socket.UDPSocket;
  * Created by melo on 2017/9/20.
  */
 
-public class UDPSocketActivity extends AppCompatActivity {
+public class UDPSocketActivity extends AppCompatActivity implements  Objectcallback {
 
     private UDPSocket socket;
 
@@ -44,5 +44,16 @@ public class UDPSocketActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         socket.stopUDPSocket();
+    }
+
+    @Override
+    public void getmessages(String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+
     }
 }

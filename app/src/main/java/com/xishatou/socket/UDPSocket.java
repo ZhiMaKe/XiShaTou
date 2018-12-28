@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.xishatou.JX_Utils;
+import com.xishatou.UDPSocketActivity;
 import com.xishatou.bean.Head;
 import com.xishatou.bean.Heart;
 import com.xishatou.bean.Users;
@@ -38,14 +39,14 @@ public class UDPSocket {
     private static final int BUFFER_LENGTH = 1024;
     private byte[] receiveByte = new byte[BUFFER_LENGTH];
 
-    private static final String BROADCAST_IP = "192.168.10.79";
+    private static final String BROADCAST_IP = "106.39.79.26";
 
     // 端口号，飞鸽协议默认端口2425
     public static final int CLIENT_PORT = 4147;
 
     private boolean isThreadRunning = false;
 
-    private Context mContext;
+    private UDPSocketActivity mContext;
     private DatagramSocket client;
     private DatagramPacket receivePacket;
 
@@ -56,10 +57,9 @@ public class UDPSocket {
     private ExecutorService mThreadPool;
     private Thread clientThread;
     private HeartbeatTimer timer;
-    private Users localUser;
-    private Users remoteUser;
 
-    public UDPSocket(Context context) {
+
+    public UDPSocket(UDPSocketActivity context) {
 
         this.mContext = context;
 
@@ -72,27 +72,6 @@ public class UDPSocket {
 //        createUser();
     }
 
-    /**
-     * 创建本地用户信息
-     */
-//    private void createUser() {
-//        if (localUser == null) {
-//            localUser = new Users();
-//        }
-//        if (remoteUser == null) {
-//            remoteUser = new Users();
-//        }
-//
-//        localUser.setImei(DeviceUtil.getDeviceId(mContext));
-//        localUser.setSoftVersion(DeviceUtil.getPackageVersionCode(mContext));
-//
-//        if (WifiUtil.getInstance(mContext).isWifiApEnabled()) {// 判断当前是否是开启热点方
-//            localUser.setIp("192.168.43.1");
-//        } else {// 当前是开启 wifi 方
-//            localUser.setIp(WifiUtil.getInstance(mContext).getLocalIPAddress());
-//            remoteUser.setIp(WifiUtil.getInstance(mContext).getServerIPAddress());
-//        }
-//    }
 
 
     public void startUDPSocket() {
@@ -152,15 +131,15 @@ public class UDPSocket {
                 continue;
             }
             byte[] data = receivePacket.getData();
-            int i = API.returnActualLength(data);
-             byte[] bytes = BytesUtils.subBytes(data, 0, i);
+//            int i = API.returnActualLength(data);
+            byte[] bytes = BytesUtils.subBytes(data, 0, data.length);
             String s = BytesUtils.Bytes2HexString(bytes);
+            String t =  s.replaceAll("0+$", "");
 
 
+            mContext. getmessages( t.substring(20,32));
 
-
-
-            Log.e(TAG, s + " ,from: " + receivePacket.getAddress().getHostAddress() + ":" + receivePacket.getPort());
+            Log.e(TAG, t + " ,from: " + receivePacket.getAddress().getHostAddress() + ":" + receivePacket.getPort());
 
             //解析接收到的 json 信息
 
@@ -235,7 +214,7 @@ public class UDPSocket {
                     String Plate_number = GetCharAscii.padLeft(s5, 20, '0');
                     String JD =  String.format("%08X",(long)114.28 * 10000);
                     String WD = String.format("%08X",(long)24.28 * 10000);
-                    String heartBody = heart.PutData("0002", "0003", Plate_number,
+                    String heartBody = heart.PutData(Plate_number,"03",
                             JD, WD, "0002", "01", "00",
                             "01", "01", "01", "000000000006");
 
@@ -247,15 +226,10 @@ public class UDPSocket {
                     }
 
 
-                    //long JD10 = API.getUint32(JD);
-                   // long WD10 = API.getUint32(WD);
-                    //String s1 = String.valueOf(JD10);
-                    //String s2 = String.valueOf(WD10);
-//                    String s3 = JX_Utils.stringToAsciiToHexString(s1);
-//                    String s4 =   JX_Utils.stringToAsciiToHexString(s2);
 
 
-                    String headbody = head.putHead("0001", hex, "666666666666", "0002");
+
+                    String headbody = head.putHead("0002", hex, "666666666666", "0002");
 
 
                     String s = Resert.sendData(headbody, heartBody);

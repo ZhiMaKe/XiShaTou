@@ -1,6 +1,17 @@
 package com.xishatou.utils;
 
+import android.util.Log;
+
+import javax.security.auth.login.LoginException;
+
 public class BytesUtils {
+	public static void printBytes(byte[] bytes){
+		for (int i = 0; i < bytes.length; i++) {
+			Log.e("cz from","byte[" + i + "] = " +bytes[i]);
+		}
+	}
+
+
 	public static String Bytes2HexString(byte[] b) {
 		String ret = "";
 		for (int i = 0; i < b.length; i++) {

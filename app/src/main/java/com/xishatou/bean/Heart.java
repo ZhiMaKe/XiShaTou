@@ -6,11 +6,13 @@ package com.xishatou.bean;
 
 public class Heart {
     //应答流水号(2字节,4位)
-    String Response_Flowcode;
+//    String Response_Flowcode;
     //应答ID(3字节,6位)
-    String Response_ID;
+//    String Response_ID;
     //车牌号(10字节,20位)
     String  Plate_number;
+    //定位状态(1字节,2位)
+    String Positioning_state;
     //纬度(4字节,8位)
     String  Latitude;
     //经度(4字节,8位)
@@ -30,9 +32,16 @@ public class Heart {
     //应答时间(6字节,12位)
     String  Response_Time;
 
-    public   String    PutData(String response_Flowcode, String response_ID, String plate_number, String latitude, String longitude, String speed, String vehicle_type, String vehicle_condition, String vehicle_priority, String special_vehicle_information, String SOS, String response_Time) {
-        Response_Flowcode = response_Flowcode;
-        Response_ID = response_ID;
+    public String getPositioning_state() {
+        return Positioning_state;
+    }
+
+    public void setPositioning_state(String positioning_state) {
+        Positioning_state = positioning_state;
+    }
+
+    public   String    PutData(String plate_number, String positioning_state, String latitude, String longitude, String speed, String vehicle_type, String vehicle_condition, String vehicle_priority, String special_vehicle_information, String SOS, String response_Time) {
+        Positioning_state=positioning_state;
         Plate_number = plate_number;
         Latitude = latitude;
         Longitude = longitude;
@@ -43,28 +52,14 @@ public class Heart {
         Special_vehicle_information = special_vehicle_information;
         this.SOS = SOS;
         Response_Time = response_Time;
-   return     Response_Flowcode+Response_ID+Plate_number+Latitude+Longitude+Speed+Vehicle_type+Vehicle_condition+Vehicle_priority+
+   return      Plate_number+Positioning_state+Latitude+Longitude+Speed+Vehicle_type+Vehicle_condition+Vehicle_priority+
           Special_vehicle_information+SOS+Response_Time;
 
     }
 
 
 
-    public String getResponse_Flowcode() {
-        return Response_Flowcode;
-    }
 
-    public void setResponse_Flowcode(String response_Flowcode) {
-        Response_Flowcode = response_Flowcode;
-    }
-
-    public String getResponse_ID() {
-        return Response_ID;
-    }
-
-    public void setResponse_ID(String response_ID) {
-        Response_ID = response_ID;
-    }
 
     public String getPlate_number() {
         return Plate_number;
