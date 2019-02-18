@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.xishatou.JX_Utils;
+import com.xishatou.Main2Activity;
 import com.xishatou.UDPSocketActivity;
 import com.xishatou.bean.Head;
 import com.xishatou.bean.Heart;
@@ -31,7 +32,7 @@ import java.util.concurrent.Executors;
 
 public class UDPSocket {
 
-    private static final String TAG = "zzzzzzzzzzzzzzzzz";
+    private static final String TAG = "LOG";
 
     // 单个CPU线程池大小
     private static final int POOL_SIZE = 5;
@@ -41,12 +42,15 @@ public class UDPSocket {
 
     private static final String BROADCAST_IP = "106.39.79.26";
 
-    // 端口号，飞鸽协议默认端口2425
+
+
+
     public static final int CLIENT_PORT = 4147;
+
 
     private boolean isThreadRunning = false;
 
-    private UDPSocketActivity mContext;
+    private Main2Activity mContext;
     private DatagramSocket client;
     private DatagramPacket receivePacket;
 
@@ -59,7 +63,7 @@ public class UDPSocket {
     private HeartbeatTimer timer;
 
 
-    public UDPSocket(UDPSocketActivity context) {
+    public UDPSocket(Main2Activity context) {
 
         this.mContext = context;
 
@@ -75,7 +79,8 @@ public class UDPSocket {
 
 
     public void startUDPSocket() {
-        if (client != null) return;
+        if (client != null)
+            return;
         try {
             // 表明这个 Socket 在设置的端口上监听数据。
             client = new DatagramSocket(CLIENT_PORT);
@@ -98,7 +103,7 @@ public class UDPSocket {
         clientThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.e(TAG, "clientThread is running...");
+                Log.e(TAG, "客户端运行中");
                 receiveMessage();
             }
         });
@@ -118,7 +123,7 @@ public class UDPSocket {
                     client.receive(receivePacket);
                 }
                 lastReceiveTime = System.currentTimeMillis();
-                Log.e(TAG, "receive packet success...");
+                Log.e(TAG, "接收数据成功！");
             } catch (IOException e) {
                 Log.e(TAG, "UDP数据包接收失败！线程停止");
                 stopUDPSocket();
@@ -137,7 +142,7 @@ public class UDPSocket {
             String t =  s.replaceAll("0+$", "");
 
 
-            mContext. getmessages( t.substring(20,32));
+            mContext. getmessages( t);
 
             Log.e(TAG, t + " ,from: " + receivePacket.getAddress().getHostAddress() + ":" + receivePacket.getPort());
 
@@ -181,8 +186,8 @@ public class UDPSocket {
                     // 刷新时间，重新进入下一个心跳周期
                     lastReceiveTime = System.currentTimeMillis();
                 } else if (duration > HEARTBEAT_MESSAGE_DURATION) {//若超过十秒他没收到我的心跳包，则重新发一个。
-                    String string = "hello,this is a heartbeat message";
-                    sendMessage(string);
+//
+                    sendMessage("");
                 }
             }
 
@@ -229,7 +234,7 @@ public class UDPSocket {
 
 
 
-                    String headbody = head.putHead("0002", hex, "666666666666", "0002");
+                    String headbody = head.putHead("0002", hex, "1001A0000001", "0002");
 
 
                     String s = Resert.sendData(headbody, heartBody);
